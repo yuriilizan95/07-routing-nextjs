@@ -5,9 +5,15 @@ import css from "./NotePreview.module.css";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import Modal from "@/components/Modal/Modal";
+import { useRouter } from "next/navigation";
 
 const NotePreviewClient = () => {
+  const router = useRouter();
   const { id } = useParams<{ id: string }>();
+
+  const handleClose = () => {
+    router.back();
+  };
 
   const {
     data: note,
@@ -28,9 +34,12 @@ const NotePreviewClient = () => {
   }
   return (
     note && (
-      <Modal>
+      <Modal onClose={handleClose}>
         <main className={css.main}>
           <div className={css.container}>
+            <button type="button" onClick={handleClose} className={css.backBtn}>
+              Back
+            </button>
             <div className={css.item}>
               <div className={css.header}>
                 <h2>{note.title}</h2>
