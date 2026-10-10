@@ -1,32 +1,33 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Modal from '../../components/Modal/Modal';
-import NoteForm from '../../components/NoteForm/NoteForm';
+import { useState } from "react";
+import Modal from "@/components/Modal/Modal";
+import NoteForm from "@/components/NoteForm/NoteForm";
 
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-import css from './Notepage.module.css'; 
-import NoteList from '../../components/NoteList/NoteList';
-import { fetchNotes } from '../../lib/api';
-import type { FetchNotesResponse } from '../../lib/api';
-import Pagination from '../../components/Pagination/Pagination';
-import { useDebounce } from 'use-debounce';
-import SearchBox from '../../components/SearchBox/SearchBox';
+import css from "./NotePage.module.css";
+import NoteList from "@/components/NoteList/NoteList";
+import { fetchNotes } from "@/lib/api";
+import type { FetchNotesResponse } from "@/lib/api";
+import Pagination from "@/components/Pagination/Pagination";
+import { useDebounce } from "use-debounce";
+import SearchBox from "@/components/SearchBox/SearchBox";
 
-export default function NotesClient() {
+interface NotesClientProps {
+  tag?: string;
+}
+
+export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState<number>(1);
-  const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateNote, setIsCreateNote] = useState(false);
   const [debouncedSearch] = useDebounce(search, 300);
 
-  const {
-    data,
-    isError,
-  } = useQuery<FetchNotesResponse, Error>({
-    queryKey: ['notes', { page, search: debouncedSearch }],
-    queryFn: () => fetchNotes({ page, search: debouncedSearch }),
+  const { data, isError } = useQuery<FetchNotesResponse, Error>({
+    queryKey: ["notes", { page, search: debouncedSearch, tag }],
+    queryFn: () => fetchNotes({ page, search: debouncedSearch, tag }),
     placeholderData: keepPreviousData,
   });
 
@@ -57,7 +58,6 @@ export default function NotesClient() {
           Create note +
         </button>
       </header>
-
 
       {isModalOpen && (
         <Modal onClose={() => setIsModalOpen(false)}>

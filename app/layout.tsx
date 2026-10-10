@@ -21,18 +21,20 @@ export const metadata: Metadata = {
 };
 
 interface LayoutProps {
-  children: React.ReactNode
+  children: React.ReactNode;
+  modal: React.ReactNode;
 }
 
-export default function RootLayout({ children }: LayoutProps) {
+export default function RootLayout({ children, modal }: LayoutProps) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
       <TanStackProvider>
-      <body>
-        <Header/>
-        {children}
-        <Footer/>
-      </body>
+        <body>
+          <Header />
+          {children}
+          {modal}
+          <Footer />
+        </body>
       </TanStackProvider>
     </html>
   );

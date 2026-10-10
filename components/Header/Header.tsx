@@ -1,9 +1,9 @@
-import Link from 'next/link'
-import css from './Header.module.css'
+import Link from "next/link";
+import css from "./Header.module.css";
 
 const Header = () => {
   return (
-     <header className={css.header}>
+    <header className={css.header}>
       <Link href="/" aria-label="Home">
         NoteHub
       </Link>
@@ -13,12 +13,12 @@ const Header = () => {
             <Link href="/">Home</Link>
           </li>
           <li>
-            <Link href="/notes">Notes</Link>
+            <Link href="/notes/filter/all">Notes</Link>
           </li>
         </ul>
       </nav>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
